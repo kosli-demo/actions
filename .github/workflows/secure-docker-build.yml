@@ -1,0 +1,230 @@
+name: Secure docker build
+
+on:
+  workflow_call:
+    outputs:
+      digest:
+        description: The SHA256 image digest
+        value: ${{ jobs.secure-build.outputs.digest }}
+      tagged_image_name:
+        description: "eg ghcr.io/kosli-demi/golden-ledger:52ec808"
+        value: ${{ jobs.secure-build.outputs.tagged_image_name }}
+
+    inputs:
+      # inputs for actions/checkout@v6
+      checkout_repository:
+        required: true
+        type: string        # eg kosli-demo/golden-ledger
+      checkout_ref:
+        required: true
+        type: string        # eg ${{ github.sha }}
+      checkout_fetch_depth:
+        required: true
+        type: string        # eg 1
+
+      # inputs for docker/build-push-action@v7
+      image_name:
+        required: true
+        type: string        # eg ghcr.io/kosli-demo/golden-ledger
+      image_tag:
+        required: true
+        type: string        # eg 52ec808
+      image_build_args:
+        required: false
+        type: string
+
+      # inputs for Kosli CLI commands
+      kosli_flow:
+        required: true
+        type: string
+      kosli_trail:          # eg ${{ vars.KOSLI_FLOW }}
+        required: true
+        type: string        # eg ${{ inputs.KOSLI_TRAIL }}
+      kosli_reference_name:
+        required: true
+        type: string        # eg artifact
+
+      attest_to_kosli:
+        required: false
+        type: boolean       # eg ${{ github.ref == 'refs/heads/main' }}
+        default: true
+      kosli_cli_version:
+        required: false
+        type: string
+        default: ${{ vars.KOSLI_CLI_VERSION }}
+      kosli_debug:
+        required: false
+        type: string
+        default: ${{ vars.KOSLI_DEBUG }}
+      kosli_dry_run:
+        required: false
+        type: string
+        default: ${{ vars.KOSLI_DRY_RUN }}
+      kosli_host:
+        required: false
+        type: string
+        default: ${{ vars.KOSLI_HOST }}
+      kosli_org:
+        required: false
+        type: string
+        default: ${{ vars.KOSLI_ORG }}
+
+    secrets:
+      kosli_api_token:
+        required: true
+
+
+env:
+  KOSLI_API_TOKEN: ${{ secrets.kosli_api_token }}
+  KOSLI_DEBUG:     ${{ inputs.kosli_debug }}          # true/false
+  KOSLI_DRY_RUN:   ${{ inputs.kosli_dry_run }}        # true/false
+  KOSLI_HOST:      ${{ inputs.kosli_host }}           # https://app.kosli.com
+  KOSLI_ORG:       ${{ inputs.kosli_org }}            # cyber-dojo
+  KOSLI_FLOW:      ${{ inputs.kosli_flow }}           # saver-ci
+  KOSLI_TRAIL:     ${{ inputs.kosli_trail }}
+
+jobs:
+
+  secure-build:
+    needs: []
+    runs-on: ubuntu-latest
+    outputs:
+      digest: ${{ steps.sanitize-digest.outputs.digest }}
+      tagged_image_name: ${{ inputs.image_name }}:${{ inputs.image_tag }}
+    permissions:
+      id-token: write
+      contents: write
+      attestations: write
+      artifact-metadata: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v6
+      #   with:
+      #     role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/gh_actions_services
+      #     aws-region: ${{ env.AWS_REGION }}
+      #     role-duration-seconds: 2400
+      #     role-session-name: ${{ github.event.repository.name }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      # - name: Login to Amazon ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v2
+
+      - uses: actions/checkout@v6
+        with:
+          repository: ${{ inputs.checkout_repository }}
+          ref: ${{ inputs.checkout_ref }}
+          fetch-depth: ${{ inputs.checkout_fetch_depth }}
+
+      - name: Build and push Docker image to Registry
+        id: docker_build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          no-cache: true
+          push: true
+          tags: ${{ inputs.image_name }}:${{ inputs.image_tag }}
+          build-args: ${{ inputs.image_build_args }}
+          provenance: mode=max
+          sbom: true
+
+      - name: Sanitize digest
+        id: sanitize-digest
+        run: |
+          DIGEST=$(echo ${{ steps.docker_build.outputs.digest }} | sed 's/^sha256://')
+          echo "DIGEST=${DIGEST}" >> ${GITHUB_ENV}
+          echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
+
+      - name: Save Docker image ready to upload
+        run: |          
+          docker pull ${{ inputs.image_name }}:${{ inputs.image_tag }}
+          docker image save ${{ inputs.image_name }}:${{ inputs.image_tag }} --output ${{ runner.temp }}/${{ env.DIGEST }}.tar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ env.DIGEST }}
+          path: ${{ runner.temp }}/${{ env.DIGEST }}.tar
+
+      - name: Get build metadata
+        run:
+          docker buildx imagetools inspect ${{ inputs.image_name }}@${{ steps.docker_build.outputs.digest }}
+            --format "{{ json .Provenance.SLSA }}" > provenance.json
+
+      - name: Get SBOM file
+        run:
+          docker buildx imagetools inspect ${{ inputs.image_name }}@${{ steps.docker_build.outputs.digest }}
+            --format "{{ json .SBOM.SPDX }}" > sbom.spdx.json
+
+      - name: Attest Build Provenance
+        id: artifact-gh-attest
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-name: ${{ inputs.image_name }}
+          subject-digest: sha256:${{ env.DIGEST }}
+          push-to-registry: true
+
+      - name: Make artifact GH sigstore attestation index available to next steps
+        run: |
+          TRANSPARENCY_LOG_INDEX=$(jq '.verificationMaterial.tlogEntries[0].logIndex' ${{ steps.artifact-gh-attest.outputs.bundle-path }})
+          echo "ARTIFACT_TLOG_INDEX=${TRANSPARENCY_LOG_INDEX}" >> ${GITHUB_ENV}
+      
+      - name: Attest SBOM to Github
+        id: sbom-gh-attest
+        uses: actions/attest@v4
+        with:
+          sbom-path: 'sbom.spdx.json'
+          subject-name: ${{ inputs.image_name }}
+          subject-digest: sha256:${{ env.DIGEST }}
+
+      - name: Make sbom GH sigstore attestation index available to next steps
+        run: |
+          TRANSPARENCY_LOG_INDEX=$(jq '.verificationMaterial.tlogEntries[0].logIndex' ${{ steps.sbom-gh-attest.outputs.bundle-path }})
+          echo "SBOM_TLOG_INDEX=${TRANSPARENCY_LOG_INDEX}" >> ${GITHUB_ENV}
+
+      - name: Show workflow details
+        run: |
+          echo "Workflow     => ${{ github.workflow }}"
+          echo "Workflow ref => ${{ github.workflow_ref }}"
+          echo "Workflow sha => ${{ github.workflow_sha }}"
+
+      - name: Setup Kosli CLI
+        if: ${{ success() || failure() }}
+        uses: kosli-dev/setup-cli-action@v3
+        with:
+          version: ${{ inputs.kosli_cli_version }}
+
+      - name: Attest artifact to Kosli
+        if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
+        run:
+          kosli attest artifact ${{ inputs.image_name }}:${{ inputs.image_tag }}
+            --fingerprint ${{ env.DIGEST }}
+            --name ${{ inputs.kosli_reference_name }}
+
+      - name: Attest GitHub attestation to Kosli
+        if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
+        run:
+          kosli attest generic 
+            --name provenance-attestation
+            --fingerprint ${{ env.DIGEST }}
+            --attachments provenance.json
+            --external-url github-attestation=${{ steps.artifact-gh-attest.outputs.attestation-url }}
+            --external-url github-sigstore=https://search.sigstore.dev/?logIndex=${{ env.ARTIFACT_TLOG_INDEX }}
+
+      - name: Attest SBOM
+        if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
+        run:
+          kosli attest generic 
+            --name sbom
+            --fingerprint ${{ env.DIGEST }}
+            --attachments sbom.spdx.json
+            --external-url github-attestation=${{ steps.sbom-gh-attest.outputs.attestation-url }}
+            --external-url github-sigstore=https://search.sigstore.dev/?logIndex=${{ env.SBOM_TLOG_INDEX }}
+
