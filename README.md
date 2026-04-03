@@ -26,9 +26,8 @@ jobs:
       image_tag: ${{ needs.setup.outputs.image_tag }}
       image_build_args: |
         COMMIT_SHA=${{ github.sha }}
-        BASE_IMAGE=${{ inputs.BASE_IMAGE }}
-      kosli_flow: ${{ env.KOSLI_FLOW }}
-      kosli_trail: ${{ env.KOSLI_TRAIL }}
+      kosli_flow: ${{ needs.setup.outputs.kosli_flow }}
+      kosli_trail: ${{ needs.setup.outputs.kosli_trail }}
       kosli_reference_name: golden-ledger
       attest_to_kosli: ${{ github.ref == 'refs/heads/main' }}        
     secrets:
