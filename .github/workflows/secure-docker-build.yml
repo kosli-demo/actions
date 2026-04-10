@@ -34,12 +34,15 @@ on:
         type: string
 
       # inputs for Kosli CLI commands
+      kosli_host:
+        required: true
+        type: string        # eg ${{ vars.KOSLI_HOST }}
       kosli_flow:
         required: true
-        type: string
-      kosli_trail:          # eg ${{ vars.KOSLI_FLOW }}
+        type: string        # eg ${{ vars.KOSLI_FLOW }}
+      kosli_trail:
         required: true
-        type: string        # eg ${{ inputs.KOSLI_TRAIL }}
+        type: string        # eg ${{ vars.KOSLI_TRAIL }}
       kosli_reference_name:
         required: true
         type: string        # eg artifact
@@ -48,6 +51,10 @@ on:
         required: false
         type: boolean       # eg ${{ github.ref == 'refs/heads/main' }}
         default: true
+      kosli_org:
+        required: false
+        type: string
+        default: ${{ vars.KOSLI_ORG }}
       kosli_cli_version:
         required: false
         type: string
@@ -60,14 +67,6 @@ on:
         required: false
         type: string
         default: ${{ vars.KOSLI_DRY_RUN }}
-      kosli_host:
-        required: false
-        type: string
-        default: ${{ vars.KOSLI_HOST }}
-      kosli_org:
-        required: false
-        type: string
-        default: ${{ vars.KOSLI_ORG }}
 
     secrets:
       kosli_api_token:
