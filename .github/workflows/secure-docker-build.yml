@@ -192,7 +192,7 @@ jobs:
 
       - name: Setup Kosli CLI
         if: ${{ success() || failure() }}
-        uses: kosli-dev/setup-cli-action@v3
+        uses: kosli-dev/setup-cli-action@v5
         with:
           version: ${{ inputs.kosli_cli_version }}
 
