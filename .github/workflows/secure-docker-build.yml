@@ -134,19 +134,21 @@ jobs:
         id: sanitize-digest
         run: |
           DIGEST=$(echo ${{ steps.docker_build.outputs.digest }} | sed 's/^sha256://')
+          TARFILE="${{ runner.temp }}/${{ env.DIGEST }}.tar"
           echo "DIGEST=${DIGEST}" >> ${GITHUB_ENV}
+          echo "TARFILE=${TARFILE}" >> ${GITHUB_ENV}
           echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
 
       - name: Save Docker image ready to upload
         run: |          
           docker pull ${{ inputs.image_name }}:${{ inputs.image_tag }}
-          docker image save ${{ inputs.image_name }}:${{ inputs.image_tag }} --output ${{ runner.temp }}/${{ env.DIGEST }}.tar
+          docker image save ${{ inputs.image_name }}:${{ inputs.image_tag }} --output ${{ env.TARFILE }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
           name: ${{ env.DIGEST }}
-          path: ${{ runner.temp }}/${{ env.DIGEST }}.tar
+          path: ${{ env.TARFILE }}
 
       - name: Get build metadata
         run:
@@ -196,19 +198,23 @@ jobs:
         with:
           version: ${{ inputs.kosli_cli_version }}
 
+      # We do not actually deploy the docker image to a runtime environment. 
+      # Instead we simulate this using a server-type environment, where we
+      # pretend the server is the tar file of the docker image.
+
       - name: Attest artifact to Kosli
         if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
         run:
-          kosli attest artifact ${{ inputs.image_name }}:${{ inputs.image_tag }}
-            --fingerprint ${{ env.DIGEST }}
+          kosli attest artifact ${{ env.TARFILE }}
+            --artifact-type file
             --name ${{ inputs.kosli_reference_name }}
 
       - name: Attest GitHub attestation to Kosli
         if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
         run:
-          kosli attest generic 
+          kosli attest generic ${{ env.TARFILE }}
+            --artifact-type file
             --name provenance-attestation
-            --fingerprint ${{ env.DIGEST }}
             --attachments provenance.json
             --external-url github-attestation=${{ steps.artifact-gh-attest.outputs.attestation-url }}
             --external-url github-sigstore=https://search.sigstore.dev/?logIndex=${{ env.ARTIFACT_TLOG_INDEX }}
@@ -216,9 +222,9 @@ jobs:
       - name: Attest SBOM
         if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
         run:
-          kosli attest generic 
+          kosli attest generic ${{ env.TARFILE }}
+            --artifact-type file
             --name sbom
-            --fingerprint ${{ env.DIGEST }}
             --attachments sbom.spdx.json
             --external-url github-attestation=${{ steps.sbom-gh-attest.outputs.attestation-url }}
             --external-url github-sigstore=https://search.sigstore.dev/?logIndex=${{ env.SBOM_TLOG_INDEX }}
