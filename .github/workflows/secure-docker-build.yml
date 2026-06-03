@@ -134,7 +134,7 @@ jobs:
         id: sanitize-digest
         run: |
           DIGEST=$(echo ${{ steps.docker_build.outputs.digest }} | sed 's/^sha256://')
-          TARFILE="${{ runner.temp }}/${{ env.DIGEST }}.tar"
+          TARFILE="${{ runner.temp }}/${DIGEST}.tar"
           echo "DIGEST=${DIGEST}" >> ${GITHUB_ENV}
           echo "TARFILE=${TARFILE}" >> ${GITHUB_ENV}
           echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
