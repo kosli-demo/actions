@@ -7,7 +7,7 @@ on:
         description: The SHA256 image digest
         value: ${{ jobs.secure-build.outputs.digest }}
       tagged_image_name:
-        description: "eg ghcr.io/kosli-demi/golden-ledger:52ec808"
+        description: "eg ghcr.io/kosli-demo/golden-ledger:52ec808"
         value: ${{ jobs.secure-build.outputs.tagged_image_name }}
 
     inputs:
