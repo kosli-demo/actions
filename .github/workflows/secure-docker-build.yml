@@ -156,12 +156,12 @@ jobs:
 
       - name: Get build metadata
         run:
-          docker buildx imagetools inspect ${{ inputs.image_name }}@${{ env.DIGEST }}
+          docker buildx imagetools inspect ${{ inputs.image_name }}@${{ steps.docker_build.outputs.digest }}
             --format "{{ json .Provenance.SLSA }}" > provenance.json
 
       - name: Get SBOM file
         run:
-          docker buildx imagetools inspect ${{ inputs.image_name }}@${{ env.DIGEST }}
+          docker buildx imagetools inspect ${{ inputs.image_name }}@${{ steps.docker_build.outputs.digest }}
             --format "{{ json .SBOM.SPDX }}" > sbom.spdx.json
 
       - name: Attest Build Provenance
