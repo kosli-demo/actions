@@ -235,21 +235,11 @@ jobs:
             --external-url github-sigstore=https://search.sigstore.dev/?logIndex=${{ env.ARTIFACT_TLOG_INDEX }}
             --user-data eval-evidence.json
 
-      - name: Attest GitHub attestation to Kosli
-        if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
-        run:
-          kosli attest generic source/datetime.txt
-            --artifact-type file
-            --name provenance-attestation
-            --attachments provenance.json
-            --external-url github-attestation=${{ steps.artifact-gh-attest.outputs.attestation-url }}
-            --external-url github-sigstore=https://search.sigstore.dev/?logIndex=${{ env.ARTIFACT_TLOG_INDEX }}
-
       - name: Attest SBOM
         if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
         run:
           kosli attest generic source/datetime.txt
-            --artifact-type file
+            --fingerprint ${{ steps.sanitize-digest.outputs.digest }}
             --name sbom
             --attachments sbom.spdx.json
             --external-url github-attestation=${{ steps.sbom-gh-attest.outputs.attestation-url }}
