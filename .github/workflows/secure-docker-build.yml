@@ -96,6 +96,9 @@ jobs:
       attestations: write
       artifact-metadata: write
       packages: write
+    env:
+      REGO_POLICY_FILENAME: SDLC-CTRL-0002-binary-provenance.rego
+      REGO_POLICY_URL:      https://raw.githubusercontent.com/kosli-demo/actions/refs/heads/main/SDLC-CTRL-0002-binary-provenance.rego
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@v2
@@ -200,8 +203,37 @@ jobs:
         if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
         run:
           kosli attest artifact source/datetime.txt
-            --artifact-type file
+            --fingerprint ${{ steps.sanitize-digest.outputs.digest }}
             --name ${{ inputs.kosli_reference_name }}
+
+      - name: Evaluate
+        if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
+        id: evaluate
+        run: |
+          curl --fail-with-body "${REGO_POLICY_URL}" > "${REGO_POLICY_FILENAME}"
+          PARAMS='{"artifact_name": "${{ inputs.kosli_reference_name }}"}'
+          kosli evaluate trail ${{inputs.kosli_trail}} \
+            --policy "${REGO_POLICY_FILENAME}" \
+            --params "${PARAMS}" \
+            --no-assert \
+            --output json > eval-report.json
+          echo "compliant=$(jq -r '.allow' eval-report.json)" >> "${GITHUB_OUTPUT}"
+          params="${PARAMS}"
+          jq --argjson params "$params" '{params: $params, allow: .allow, violations: .violations}' eval-report.json > eval-evidence.json
+
+      - name: Attest SDLC-CTRL-0002 decision
+        if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
+        run:
+          kosli attest decision
+            --control SDLC-CTRL-0002
+            --compliant=${{ steps.evaluate.outputs.compliant }}
+            --name provenance
+            --fingerprint ${{ steps.sanitize-digest.outputs.digest }}
+            --attachments "${REGO_POLICY_FILENAME}"
+            --attachments provenance.json
+            --external-url github-attestation=${{ steps.artifact-gh-attest.outputs.attestation-url }}
+            --external-url github-sigstore=https://search.sigstore.dev/?logIndex=${{ env.ARTIFACT_TLOG_INDEX }}
+            --user-data eval-evidence.json
 
       - name: Attest GitHub attestation to Kosli
         if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
