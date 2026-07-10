@@ -140,22 +140,19 @@ jobs:
           provenance: mode=max
           sbom: true
 
-      # The kosli-demo Org is a simulation and does not actually deploy its docker images
-      # to a runtime environment. Instead, when we send Kosli a snapshot-report, we
-      # fake a server type environment. If we are faking 500 images running, then we 
-      # need 500 files. To keep things as simple as possible, these 500 files are the
-      # source/datetime.txt files from each repo.
+      # This variant attests the REAL docker image digest to Kosli - the same
+      # value used as the GitHub SLSA subject-digest below. The kosli-demo Org
+      # does not deploy its images to a real runtime; its environment is faked
+      # from snapshot reports. Attesting the real image digest lets those fake
+      # snapshots report real, content-addressable digests that match each
+      # artifact's provenance.
 
       - name: Sanitize digest
         id: sanitize-digest
         run: |
           DIGEST=$(echo ${{ steps.docker_build.outputs.digest }} | sed 's/^sha256://')
           echo "DIGEST=${DIGEST}" >> ${GITHUB_ENV}
-          FAKE_FINGERPRINT="$(kosli fingerprint source/datetime.txt \
-            --artifact-type=file \
-            --debug=false \
-          )"
-          echo "digest=${FAKE_FINGERPRINT}" >> ${GITHUB_OUTPUT}
+          echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
 
       - name: Get build metadata
         run:
@@ -179,7 +176,7 @@ jobs:
         run: |
           TRANSPARENCY_LOG_INDEX=$(jq '.verificationMaterial.tlogEntries[0].logIndex' ${{ steps.artifact-gh-attest.outputs.bundle-path }})
           echo "ARTIFACT_TLOG_INDEX=${TRANSPARENCY_LOG_INDEX}" >> ${GITHUB_ENV}
-      
+
       - name: Attest SBOM to Github
         id: sbom-gh-attest
         uses: actions/attest@v4
@@ -193,18 +190,13 @@ jobs:
           TRANSPARENCY_LOG_INDEX=$(jq '.verificationMaterial.tlogEntries[0].logIndex' ${{ steps.sbom-gh-attest.outputs.bundle-path }})
           echo "SBOM_TLOG_INDEX=${TRANSPARENCY_LOG_INDEX}" >> ${GITHUB_ENV}
 
-      - name: Show workflow details
-        run: |
-          echo "Workflow     => ${{ github.workflow }}"
-          echo "Workflow ref => ${{ github.workflow_ref }}"
-          echo "Workflow sha => ${{ github.workflow_sha }}"
-
       - name: Attest artifact to Kosli
         if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
         run:
-          kosli attest artifact source/datetime.txt
+          kosli attest artifact ${{ inputs.image_name }}:${{ inputs.image_tag }}
             --fingerprint ${{ steps.sanitize-digest.outputs.digest }}
             --name ${{ inputs.kosli_reference_name }}
+            --annotate type=build
 
       - name: Evaluate
         if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
@@ -238,10 +230,9 @@ jobs:
       - name: Attest SBOM
         if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
         run:
-          kosli attest generic source/datetime.txt
+          kosli attest generic
             --fingerprint ${{ steps.sanitize-digest.outputs.digest }}
             --name sbom
             --attachments sbom.spdx.json
             --external-url github-attestation=${{ steps.sbom-gh-attest.outputs.attestation-url }}
             --external-url github-sigstore=https://search.sigstore.dev/?logIndex=${{ env.SBOM_TLOG_INDEX }}
-
