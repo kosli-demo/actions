@@ -1,0 +1,1060 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "sbom",
+  "documentNamespace": "https://anchore.com/syft/dir/sbom-d004f7cb-a2a9-4248-8cec-443536e5982d",
+  "creationInfo": {
+    "created": "2026-07-06T09:50:23Z",
+    "creators": [
+      "Organization: Anchore, Inc",
+      "Tool: syft-v1.42.3",
+      "Tool: buildkit-v0.30.0"
+    ],
+    "licenseListVersion": "3.28"
+  },
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Package-apk-.ruby-rundeps-9cecdb2201ec787d",
+      "copyrightText": "NOASSERTION",
+      "description": "virtual meta package",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:.ruby-rundeps:.ruby-rundeps:20260616.002334:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:.ruby-rundeps:.ruby_rundeps:20260616.002334:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:.ruby_rundeps:.ruby-rundeps:20260616.002334:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:.ruby_rundeps:.ruby_rundeps:20260616.002334:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:.ruby:.ruby-rundeps:20260616.002334:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:.ruby:.ruby_rundeps:20260616.002334:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/.ruby-rundeps@20260616.002334?arch=noarch&distro=alpine-3.24.1",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": ".ruby-rundeps",
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "NOASSERTION",
+      "versionInfo": "20260616.002334"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-gem-abbrev-69f2c7b4eeab63cd",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:akinori-musha:abbrev:0.1.2:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:akinori_musha:abbrev:0.1.2:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby-lang:abbrev:0.1.2:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby_lang:abbrev:0.1.2:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:abbrev:abbrev:0.1.2:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby:abbrev:0.1.2:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:gem/abbrev@0.1.2",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ruby/abbrev",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-2-Clause AND Ruby",
+      "name": "abbrev",
+      "originator": "Person: Akinori MUSHA",
+      "sourceInfo": "acquired package info from installed gem metadata file: /usr/local/lib/ruby/gems/4.0.0/specifications/abbrev-0.1.2.gemspec",
+      "supplier": "Person: Akinori MUSHA",
+      "versionInfo": "0.1.2"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-gem-addressable-ff9115548c625df5",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:addressable:addressable:2.9.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:sporkmonger:addressable:2.9.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby-lang:addressable:2.9.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby_lang:addressable:2.9.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:bob-aman:addressable:2.9.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:bob_aman:addressable:2.9.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby:addressable:2.9.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:gem/addressable@2.9.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/sporkmonger/addressable",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "Apache-2.0",
+      "name": "addressable",
+      "originator": "Person: Bob Aman",
+      "sourceInfo": "acquired package info from installed gem metadata file: /usr/local/bundle/specifications/addressable-2.9.0.gemspec",
+      "supplier": "Person: Bob Aman",
+      "versionInfo": "2.9.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-apk-agetty-8e40b6ec05b2b508",
+      "copyrightText": "NOASSERTION",
+      "description": "agetty program from util-linux",
+      "downloadLocation": "https://git.kernel.org/cgit/utils/util-linux/util-linux.git",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:agetty:agetty:2.42.1-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/agetty@2.42.1-r0?arch=x86_64&distro=alpine-3.24.1&upstream=util-linux",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "LicenseRef-Public-Domain",
+      "name": "agetty",
+      "originator": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      },
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "versionInfo": "2.42.1-r0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-apk-alpine-keys-0ceaef0670a2bbd9",
+      "copyrightText": "NOASSERTION",
+      "description": "Public keys for Alpine Linux packages",
+      "downloadLocation": "https://alpinelinux.org",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:alpine-keys:alpine-keys:2.6-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:alpine-keys:alpine_keys:2.6-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:alpine_keys:alpine-keys:2.6-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:alpine_keys:alpine_keys:2.6-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:alpine:alpine-keys:2.6-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:alpine:alpine_keys:2.6-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/alpine-keys@2.6-r0?arch=x86_64&distro=alpine-3.24.1",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "alpine-keys",
+      "originator": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      },
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "versionInfo": "2.6-r0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-gem-ansi-153ce1f9c924240b",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:florian-frank:ansi:1.6.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:florian_frank:ansi:1.6.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:thomas-sawyer:ansi:1.6.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:thomas_sawyer:ansi:1.6.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby-lang:ansi:1.6.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby_lang:ansi:1.6.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:rubyworks:ansi:1.6.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ansi:ansi:1.6.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby:ansi:1.6.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:gem/ansi@1.6.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/rubyworks/ansi",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-2-Clause",
+      "name": "ansi",
+      "originator": "Person: Thomas Sawyer",
+      "sourceInfo": "acquired package info from installed gem metadata file: /usr/local/bundle/specifications/ansi-1.6.0.gemspec",
+      "supplier": "Person: Thomas Sawyer",
+      "versionInfo": "1.6.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-apk-bash-61d6caed7d444257",
+      "copyrightText": "NOASSERTION",
+      "description": "The GNU Bourne Again shell",
+      "downloadLocation": "https://www.gnu.org/software/bash/bash.html",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:bash:bash:5.3.9-r1:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:gnu:bash:5.3.9-r1:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/bash@5.3.9-r1?arch=x86_64&distro=alpine-3.24.1",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "GPL-3.0-or-later",
+      "name": "bash",
+      "originator": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      },
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "versionInfo": "5.3.9-r1"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-apk-dmesg-95b9a5032b5e39b9",
+      "copyrightText": "NOASSERTION",
+      "description": "dmesg tool from util-linux",
+      "downloadLocation": "https://git.kernel.org/cgit/utils/util-linux/util-linux.git",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:dmesg:dmesg:2.42.1-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/dmesg@2.42.1-r0?arch=x86_64&distro=alpine-3.24.1&upstream=util-linux",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "LicenseRef-AND AND BSD-1-Clause AND BSD-3-Clause AND BSD-4-Clause-UC AND GPL-1.0-only AND GPL-2.0-only AND GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT AND LicenseRef-Public-Domain",
+      "name": "dmesg",
+      "originator": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      },
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "versionInfo": "2.42.1-r0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-apk-gmp-c054487d73bf4421",
+      "copyrightText": "NOASSERTION",
+      "description": "free library for arbitrary precision arithmetic",
+      "downloadLocation": "https://gmplib.org/",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:gmp:gmp:6.3.0-r4:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/gmp@6.3.0-r4?arch=x86_64&distro=alpine-3.24.1",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "(LGPL-3.0-or-later OR GPL-2.0-or-later)",
+      "name": "gmp",
+      "originator": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      },
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "versionInfo": "6.3.0-r4"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-apk-hexdump-4a39726f59a6d839",
+      "copyrightText": "NOASSERTION",
+      "description": "Hexdump from util-linux",
+      "downloadLocation": "https://git.kernel.org/cgit/utils/util-linux/util-linux.git",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:hexdump:hexdump:2.42.1-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/hexdump@2.42.1-r0?arch=x86_64&distro=alpine-3.24.1&upstream=util-linux",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-4-Clause-UC",
+      "name": "hexdump",
+      "originator": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      },
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "versionInfo": "2.42.1-r0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-gem-json-efab8080ea2a3766",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:json_project:json:2.18.0:*:*:*:*:ruby:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:gem/json@2.18.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ruby/json",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "Ruby",
+      "name": "json",
+      "originator": "Person: Florian Frank",
+      "sourceInfo": "acquired package info from installed gem metadata file: /usr/local/lib/ruby/gems/4.0.0/specifications/default/json-2.18.0.gemspec",
+      "supplier": "Person: Florian Frank",
+      "versionInfo": "2.18.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-gem-json-d39c99c3b9a935ef",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:json_project:json:2.20.0:*:*:*:*:ruby:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:gem/json@2.20.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ruby/json",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "Ruby",
+      "name": "json",
+      "originator": "Person: Florian Frank",
+      "sourceInfo": "acquired package info from installed gem metadata file: /usr/local/bundle/specifications/json-2.20.0.gemspec",
+      "supplier": "Person: Florian Frank",
+      "versionInfo": "2.20.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-apk-libncursesw-122f6731c41f1b55",
+      "copyrightText": "NOASSERTION",
+      "description": "Console display library (libncursesw)",
+      "downloadLocation": "https://invisible-island.net/ncurses/",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:libncursesw:libncursesw:6.6_p20260516-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/libncursesw@6.6_p20260516-r0?arch=x86_64&distro=alpine-3.24.1&upstream=ncurses",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "X11",
+      "name": "libncursesw",
+      "originator": "Person: Milan P. Stanić (mps@arvanta.net)",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      },
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "Person: Milan P. Stanić (mps@arvanta.net)",
+      "versionInfo": "6.6_p20260516-r0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-apk-libuuid-b4e4f3cd4d654daf",
+      "copyrightText": "NOASSERTION",
+      "description": "DCE compatible Universally Unique Identifier library",
+      "downloadLocation": "https://git.kernel.org/cgit/utils/util-linux/util-linux.git",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:libuuid:libuuid:2.42.1-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/libuuid@2.42.1-r0?arch=x86_64&distro=alpine-3.24.1&upstream=util-linux",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "name": "libuuid",
+      "originator": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      },
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "versionInfo": "2.42.1-r0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-gem-minitest-ci-d1b7e98d2adb61b9",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:minitest-ci:minitest-ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:minitest-ci:minitest_ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:minitest_ci:minitest-ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:minitest_ci:minitest_ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:bhenderson:minitest-ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:bhenderson:minitest_ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby-lang:minitest-ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby-lang:minitest_ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby_lang:minitest-ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby_lang:minitest_ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:circleci:minitest-ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:circleci:minitest_ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:minitest:minitest-ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:minitest:minitest_ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:notnoop:minitest-ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:notnoop:minitest_ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby:minitest-ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby:minitest_ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:zzak:minitest-ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:zzak:minitest_ci:3.4.0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:gem/minitest-ci@3.4.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/circleci/minitest-ci",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "minitest-ci",
+      "originator": "Person: zzak",
+      "sourceInfo": "acquired package info from installed gem metadata file: /usr/local/bundle/specifications/minitest-ci-3.4.0.gemspec",
+      "supplier": "Person: zzak",
+      "versionInfo": "3.4.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-apk-mount-c9c613391e2754af",
+      "copyrightText": "NOASSERTION",
+      "description": "mount tool from util-linux",
+      "downloadLocation": "https://git.kernel.org/cgit/utils/util-linux/util-linux.git",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:mount:mount:2.42.1-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/mount@2.42.1-r0?arch=x86_64&distro=alpine-3.24.1&upstream=util-linux",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "LicenseRef-AND AND BSD-1-Clause AND BSD-3-Clause AND BSD-4-Clause-UC AND GPL-1.0-only AND GPL-2.0-only AND GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT AND LicenseRef-Public-Domain",
+      "name": "mount",
+      "originator": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      },
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "versionInfo": "2.42.1-r0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-binary-ruby-b4396e4fb2a33563",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby-lang:ruby:4.0.5:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:generic/ruby@4.0.5",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "ruby",
+      "sourceInfo": "acquired package info from the following paths: /usr/local/bin/ruby, /usr/local/lib/libruby.so.4.0.5",
+      "supplier": "NOASSERTION",
+      "versionInfo": "4.0.5"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-binary-selenium-manager-032c9ad01f7ebb04",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:selenium-manager:selenium-manager:*:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:selenium-manager:selenium_manager:*:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:selenium_manager:selenium-manager:*:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:selenium_manager:selenium_manager:*:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:selenium:selenium-manager:*:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:selenium:selenium_manager:*:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "selenium-manager",
+      "sourceInfo": "acquired package info from the following paths: /usr/local/bundle/gems/selenium-webdriver-4.45.0/bin/windows/selenium-manager.exe",
+      "supplier": "NOASSERTION",
+      "versionInfo": "UNKNOWN"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-apk-skalibs-libs-819d3336d4da4bf6",
+      "copyrightText": "NOASSERTION",
+      "description": "Set of general-purpose C programming libraries for skarnet.org software. (libraries)",
+      "downloadLocation": "https://skarnet.org/software/skalibs/",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:skalibs-libs:skalibs-libs:2.15.0.0-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:skalibs-libs:skalibs_libs:2.15.0.0-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:skalibs_libs:skalibs-libs:2.15.0.0-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:skalibs_libs:skalibs_libs:2.15.0.0-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:skalibs:skalibs-libs:2.15.0.0-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:skalibs:skalibs_libs:2.15.0.0-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/skalibs-libs@2.15.0.0-r0?arch=x86_64&distro=alpine-3.24.1&upstream=skalibs",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "ISC",
+      "name": "skalibs-libs",
+      "originator": "Person: Laurent Bercot (ska-devel@skarnet.org)",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      },
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "Person: Laurent Bercot (ska-devel@skarnet.org)",
+      "versionInfo": "2.15.0.0-r0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-apk-zlib-eb222fe89d397776",
+      "copyrightText": "NOASSERTION",
+      "description": "A compression/decompression Library",
+      "downloadLocation": "https://zlib.net/",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:zlib:zlib:1.3.2-r0:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:apk/alpine/zlib@1.3.2-r0?arch=x86_64&distro=alpine-3.24.1",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "Zlib",
+      "name": "zlib",
+      "originator": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      },
+      "sourceInfo": "acquired package info from APK DB: /lib/apk/db/installed",
+      "supplier": "Person: Natanael Copa (ncopa@alpinelinux.org)",
+      "versionInfo": "1.3.2-r0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-gem-zlib-63cfe9d0422f9db0",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:yukihiro-matsumoto:zlib:3.2.3:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:yukihiro_matsumoto:zlib:3.2.3:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ueno-katsuhiro:zlib:3.2.3:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ueno_katsuhiro:zlib:3.2.3:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby-lang:zlib:3.2.3:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby_lang:zlib:3.2.3:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:ruby:zlib:3.2.3:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceLocator": "cpe:2.3:a:zlib:zlib:3.2.3:*:*:*:*:*:*:*",
+          "referenceType": "cpe23Type"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:gem/zlib@3.2.3",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "homepage": "https://github.com/ruby/zlib",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-2-Clause AND Ruby",
+      "name": "zlib",
+      "originator": "Person: Yukihiro Matsumoto",
+      "sourceInfo": "acquired package info from installed gem metadata file: /usr/local/lib/ruby/gems/4.0.0/specifications/default/zlib-3.2.3.gemspec",
+      "supplier": "Person: Yukihiro Matsumoto",
+      "versionInfo": "3.2.3"
+    },
+    {
+      "SPDXID": "SPDXRef-DocumentRoot-Directory-sbom",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "sbom",
+      "primaryPackagePurpose": "FILE",
+      "supplier": "NOASSERTION"
+    }
+  ],
+  "relationships": [
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-hexdump-4a39726f59a6d839",
+      "relationshipType": "DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-Package-apk-libncursesw-122f6731c41f1b55"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-dmesg-95b9a5032b5e39b9",
+      "relationshipType": "DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-Package-apk-libncursesw-122f6731c41f1b55"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-.ruby-rundeps-9cecdb2201ec787d",
+      "relationshipType": "DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-Package-apk-gmp-c054487d73bf4421"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-.ruby-rundeps-9cecdb2201ec787d",
+      "relationshipType": "DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-Package-apk-zlib-eb222fe89d397776"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-.ruby-rundeps-9cecdb2201ec787d",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-gem-abbrev-69f2c7b4eeab63cd",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-gem-addressable-ff9115548c625df5",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-agetty-8e40b6ec05b2b508",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-alpine-keys-0ceaef0670a2bbd9",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-gem-ansi-153ce1f9c924240b",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-bash-61d6caed7d444257",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-dmesg-95b9a5032b5e39b9",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-gmp-c054487d73bf4421",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-hexdump-4a39726f59a6d839",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-gem-json-efab8080ea2a3766",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-gem-json-d39c99c3b9a935ef",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-libncursesw-122f6731c41f1b55",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-libuuid-b4e4f3cd4d654daf",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-gem-minitest-ci-d1b7e98d2adb61b9",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-mount-c9c613391e2754af",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-binary-ruby-b4396e4fb2a33563",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-binary-selenium-manager-032c9ad01f7ebb04",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-skalibs-libs-819d3336d4da4bf6",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-apk-zlib-eb222fe89d397776",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-gem-zlib-63cfe9d0422f9db0",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot-Directory-sbom"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-DocumentRoot-Directory-sbom",
+      "relationshipType": "DESCRIBES",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    }
+  ]
+}

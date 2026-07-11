@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "package": "selenium-manager",
+      "check": "purl",
+      "reason": "vendored binary shipped inside the selenium gem; not published to any package manager, so no purl.",
+      "expires": "2027-01-08"
+    }
+  ]
+}

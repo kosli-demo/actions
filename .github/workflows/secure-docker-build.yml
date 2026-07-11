@@ -84,8 +84,37 @@ env:
 
 jobs:
 
+  # Gate the build on this repo's own rego policy tests. Runs before secure-build
+  # (which needs: it), so a broken policy fails here before any image is built or
+  # pushed. The tests need jq (preinstalled) and the kosli CLI; they call
+  # `kosli evaluate input`, which makes no API calls, so no token is required.
+  test-policies:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout actions
+        uses: actions/checkout@v6
+        with:
+          repository: kosli-demo/actions
+          ref: main
+
+      - name: Setup Kosli CLI
+        uses: kosli-dev/setup-cli-action@v5
+        with:
+          version: ${{ inputs.kosli_cli_version }}
+
+      - name: Run rego policy tests
+        shell: bash
+        run: make test-provenance test-sbom
+
   secure-build:
-    needs: []
+    needs: test-policies
     runs-on: ubuntu-latest
     outputs:
       digest: ${{ steps.sanitize-digest.outputs.digest }}
@@ -96,9 +125,6 @@ jobs:
       attestations: write
       artifact-metadata: write
       packages: write
-    env:
-      REGO_POLICY_FILENAME: SDLC-CTRL-0002-binary-provenance.rego
-      REGO_POLICY_URL:      https://raw.githubusercontent.com/kosli-demo/actions/refs/heads/main/SDLC-CTRL-0002-binary-provenance.rego
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@v2
@@ -110,11 +136,6 @@ jobs:
           repository: ${{ inputs.checkout_repository }}
           ref: ${{ inputs.checkout_ref }}
           fetch-depth: ${{ inputs.checkout_fetch_depth }}
-
-      - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v5
-        with:
-          version: ${{ inputs.kosli_cli_version }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -141,12 +162,11 @@ jobs:
           sbom: true
 
       # This variant attests the REAL docker image digest to Kosli - the same
-      # value used as the GitHub SLSA subject-digest below. The kosli-demo Org
-      # does not deploy its images to a real runtime; its environment is faked
-      # from snapshot reports. Attesting the real image digest lets those fake
-      # snapshots report real, content-addressable digests that match each
-      # artifact's provenance.
-
+      # value used as the GitHub SLSA subject-digest by the composite below. The
+      # kosli-demo Org does not deploy its images to a real runtime; its
+      # environment is faked from snapshot reports. Attesting the real image
+      # digest lets those fake snapshots report real, content-addressable
+      # digests that match each artifact's provenance.
       - name: Sanitize digest
         id: sanitize-digest
         run: |
@@ -154,85 +174,22 @@ jobs:
           echo "DIGEST=${DIGEST}" >> ${GITHUB_ENV}
           echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
 
-      - name: Get build metadata
-        run:
-          docker buildx imagetools inspect ${{ inputs.image_name }}@${{ steps.docker_build.outputs.digest }}
-            --format "{{ json .Provenance.SLSA }}" > provenance.json
-
       - name: Get SBOM file
         run:
           docker buildx imagetools inspect ${{ inputs.image_name }}@${{ steps.docker_build.outputs.digest }}
             --format "{{ json .SBOM.SPDX }}" > sbom.spdx.json
 
-      - name: Attest Build Provenance
-        id: artifact-gh-attest
-        uses: actions/attest-build-provenance@v4
+      # Attest the image and SBOM to GitHub and Kosli, distill provenance and
+      # SBOM facts, evaluate them against SDLC-CTRL-0002 and SDLC-CTRL-0004, and
+      # attest the two decisions. Reads sbom.spdx.json, ${{ env.DIGEST }} and the
+      # KOSLI_* env vars set above.
+      - name: Attest and evaluate
+        if: ${{ success() || failure() }}
+        uses: kosli-demo/actions/.github/actions/attest-and-evaluate@main
         with:
-          subject-name: ${{ inputs.image_name }}
-          subject-digest: sha256:${{ env.DIGEST }}
-          push-to-registry: true
-
-      - name: Make artifact GH sigstore attestation index available to next steps
-        run: |
-          TRANSPARENCY_LOG_INDEX=$(jq '.verificationMaterial.tlogEntries[0].logIndex' ${{ steps.artifact-gh-attest.outputs.bundle-path }})
-          echo "ARTIFACT_TLOG_INDEX=${TRANSPARENCY_LOG_INDEX}" >> ${GITHUB_ENV}
-
-      - name: Attest SBOM to Github
-        id: sbom-gh-attest
-        uses: actions/attest@v4
-        with:
-          sbom-path: 'sbom.spdx.json'
-          subject-name: ${{ inputs.image_name }}
-          subject-digest: sha256:${{ env.DIGEST }}
-
-      - name: Make sbom GH sigstore attestation index available to next steps
-        run: |
-          TRANSPARENCY_LOG_INDEX=$(jq '.verificationMaterial.tlogEntries[0].logIndex' ${{ steps.sbom-gh-attest.outputs.bundle-path }})
-          echo "SBOM_TLOG_INDEX=${TRANSPARENCY_LOG_INDEX}" >> ${GITHUB_ENV}
-
-      - name: Attest artifact to Kosli
-        if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
-        run:
-          kosli attest artifact ${{ inputs.image_name }}:${{ inputs.image_tag }}
-            --fingerprint ${{ steps.sanitize-digest.outputs.digest }}
-            --name ${{ inputs.kosli_reference_name }}
-            --annotate type=build
-
-      - name: Evaluate
-        if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
-        id: evaluate
-        run: |
-          curl --fail-with-body "${REGO_POLICY_URL}" > "${REGO_POLICY_FILENAME}"
-          PARAMS='{"artifact_name": "${{ inputs.kosli_reference_name }}"}'
-          kosli evaluate trail ${{inputs.kosli_trail}} \
-            --policy "${REGO_POLICY_FILENAME}" \
-            --params "${PARAMS}" \
-            --no-assert \
-            --output json > eval-report.json
-          echo "compliant=$(jq -r '.allow' eval-report.json)" >> "${GITHUB_OUTPUT}"
-          params="${PARAMS}"
-          jq --argjson params "$params" '{params: $params, allow: .allow, violations: .violations}' eval-report.json > eval-evidence.json
-
-      - name: Attest SDLC-CTRL-0002 decision
-        if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
-        run:
-          kosli attest decision
-            --control SDLC-CTRL-0002
-            --compliant=${{ steps.evaluate.outputs.compliant }}
-            --name provenance
-            --fingerprint ${{ steps.sanitize-digest.outputs.digest }}
-            --attachments "${REGO_POLICY_FILENAME}"
-            --attachments provenance.json
-            --external-url github-attestation=${{ steps.artifact-gh-attest.outputs.attestation-url }}
-            --external-url github-sigstore=https://search.sigstore.dev/?logIndex=${{ env.ARTIFACT_TLOG_INDEX }}
-            --user-data eval-evidence.json
-
-      - name: Attest SBOM
-        if: ${{ inputs.attest_to_kosli == true && (success() || failure()) }}
-        run:
-          kosli attest generic
-            --fingerprint ${{ steps.sanitize-digest.outputs.digest }}
-            --name sbom
-            --attachments sbom.spdx.json
-            --external-url github-attestation=${{ steps.sbom-gh-attest.outputs.attestation-url }}
-            --external-url github-sigstore=https://search.sigstore.dev/?logIndex=${{ env.SBOM_TLOG_INDEX }}
+          image_name: ${{ inputs.image_name }}
+          image_tag: ${{ inputs.image_tag }}
+          kosli_reference_name: ${{ inputs.kosli_reference_name }}
+          digest: ${{ env.DIGEST }}
+          attest_to_kosli: ${{ inputs.attest_to_kosli }}
+          kosli_cli_version: ${{ inputs.kosli_cli_version }}

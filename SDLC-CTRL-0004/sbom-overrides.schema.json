@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sbom-overrides.schema.json",
+  "title": "SDLC-CTRL-0004 SBOM per-service overrides allow-list",
+  "description": "Per-service override for sbom.rego. Each entry waives specific per-package checks for one package in that service's SBOM. Waivers are additive: a missing, malformed, or expired entry waives nothing, so the policy fails toward non-compliance. Passed to `kosli evaluate trail` merged into --params as data.params.overrides. One file per service, named sbom-overrides.<service>.json, stored alongside the rego.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["overrides"],
+  "properties": {
+    "overrides": {
+      "type": "array",
+      "description": "The allow-list. Empty array means the service takes no overrides.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["package", "check", "reason", "expires"],
+        "description": "Waives one check for one package. To waive more than one check for a package, add one entry per check so each carries its own reason and expiry.",
+        "properties": {
+          "package": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The SPDX package .name to waive (matched exactly against the distilled facts)."
+          },
+          "check": {
+            "enum": ["version", "purl"],
+            "description": "The single per-package check this entry waives for the package."
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Why this waiver is justified. Required and non-empty; an entry with no reason waives nothing."
+          },
+          "expires": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "YYYY-MM-DD. The waiver is active on or before this date and inactive afterwards, forcing periodic review."
+          }
+        }
+      }
+    }
+  }
+}
