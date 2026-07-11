@@ -4,10 +4,12 @@ description: >
   SBOM to GitHub and Kosli, distills provenance and SBOM facts, evaluates them
   against SDLC-CTRL-0002 and SDLC-CTRL-0004, and attests the two decisions.
 
-# Runs inside the caller's build job, operating on state the caller has already
-# produced on the runner:
-#   - files in the workspace: sbom.spdx.json, github-provenance.json
-#   - env vars: KOSLI_API_TOKEN, KOSLI_ORG, KOSLI_HOST, KOSLI_DEBUG,
+# Runs inside the caller's build job. Before invoking this action the caller
+# must have produced, on the runner:
+#   - sbom.spdx.json in the workspace
+#     (github-provenance.json is produced here, from the GitHub attestation
+#      bundle this action creates)
+#   - the KOSLI_* env vars: KOSLI_API_TOKEN, KOSLI_ORG, KOSLI_HOST, KOSLI_DEBUG,
 #     KOSLI_DRY_RUN, KOSLI_FLOW, KOSLI_TRAIL (inherited from the caller's
 #     workflow-level env: block)
 
@@ -36,28 +38,12 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # The rego policies, their distill filters, and the per-service SBOM
-    # overrides allow-lists all live in this repo. Check main out into a sibling
-    # path so the steps below read them from disk. main is deliberate: it is the
-    # source of truth the test-policies gate job runs the rego tests against.
     - name: Checkout actions policies
       uses: actions/checkout@v6
       with:
         repository: kosli-demo/actions
         ref: main
         path: actions
-
-    # The provenance policy and its distill filter, as paths into the checkout
-    # above. Exported so the run: steps below reference them by env var. The
-    # SBOM equivalents are set later, just before first use.
-    - name: Resolve provenance policy and facts filenames
-      shell: bash
-      run: |
-        base="actions/SDLC-CTRL-0002"
-        {
-          echo "PROV_REGO_POLICY_FILENAME=${base}/slsa-provenance.rego"
-          echo "PROV_FACTS_JQ_FILENAME=${base}/provenance-facts.jq"
-        } >> "${GITHUB_ENV}"
 
     - name: Attest Build Provenance
       id: artifact-gh-attest
@@ -92,14 +78,27 @@ runs:
           --fingerprint ${{ inputs.digest }}
           --name ${{ inputs.kosli_reference_name }}
 
-    # Distill the GitHub sigstore bundle (saved to github-provenance.json above)
-    # into the provenance-facts contract that SDLC-CTRL-0002/slsa-provenance.rego
-    # evaluates. provenance-facts.jq is the single distill filter shared with the
-    # repo's rego tests.
+    - name: Resolve provenance policy and facts filenames
+      shell: bash
+      run: |
+        base="actions/SDLC-CTRL-0002"
+        {
+          echo "PROV_REGO_POLICY_FILENAME=${base}/slsa-provenance.rego"
+          echo "PROV_FACTS_JQ_FILENAME=${base}/provenance-facts.jq"
+          echo "PROV_FACTS_SCHEMA_FILENAME=${base}/provenance-facts.schema.json"
+        } >> "${GITHUB_ENV}"
+
     - name: Distill provenance facts
       shell: bash
       run: |
         jq --from-file "${PROV_FACTS_JQ_FILENAME}" github-provenance.json > provenance-facts.json
+
+    - name: Create provenance-facts attestation type
+      if: ${{ inputs.attest_to_kosli == 'true' && (success() || failure()) }}
+      shell: bash
+      run:
+        kosli create attestation-type provenance-facts
+          --schema=${PROV_FACTS_SCHEMA_FILENAME}
 
     - name: Attest provenance facts to Kosli
       if: ${{ inputs.attest_to_kosli == 'true' && (success() || failure()) }}
@@ -160,10 +159,6 @@ runs:
           --external-url github-sigstore=https://search.sigstore.dev/?logIndex=${{ env.ARTIFACT_TLOG_INDEX }}
           --user-data provenance-eval-evidence.json
 
-    # The SBOM policy, its distill filter, and the per-service overrides
-    # allow-list, as paths into the checkout above. Set here, just before the
-    # SBOM steps that first need them. The overrides list is keyed on
-    # kosli_reference_name and may be absent (handled below).
     - name: Resolve SBOM policy and facts filenames
       shell: bash
       run: |
@@ -171,17 +166,21 @@ runs:
         {
           echo "SBOM_REGO_POLICY_FILENAME=${base}/sbom.rego"
           echo "SBOM_FACTS_JQ_FILENAME=${base}/sbom-facts.jq"
+          echo "SBOM_FACTS_SCHEMA_FILENAME=${base}/sbom-facts.schema.json"
           echo "SBOM_OVERRIDES_FILENAME=${base}/sbom-overrides.${{ inputs.kosli_reference_name }}.json"
         } >> "${GITHUB_ENV}"
 
-    # Distill the SPDX document into the small rego-friendly facts contract that
-    # SDLC-CTRL-0004/sbom.rego evaluates (rego cannot read the raw SPDX blob).
-    # The distill filter is shared with the repo's rego tests as a single source
-    # of truth; see sbom-facts.jq for the contract and the SPDX handling notes.
     - name: Distill SBOM facts
       shell: bash
       run: |
         jq --from-file "${SBOM_FACTS_JQ_FILENAME}" sbom.spdx.json > sbom-facts.json
+
+    - name: Create sbom-facts attestation type
+      if: ${{ inputs.attest_to_kosli == 'true' && (success() || failure()) }}
+      shell: bash
+      run:
+        kosli create attestation-type sbom-facts
+          --schema=${SBOM_FACTS_SCHEMA_FILENAME}
 
     - name: Attest SBOM facts to Kosli
       if: ${{ inputs.attest_to_kosli == 'true' && (success() || failure()) }}

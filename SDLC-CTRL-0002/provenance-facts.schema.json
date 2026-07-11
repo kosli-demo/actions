@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "predicate_type",
+    "build_type",
+    "builder_id",
+    "subject_digest",
+    "source_repo",
+    "source_ref",
+    "source_uri",
+    "source_git_commit",
+    "invocation_id"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "predicate_type": {
+      "type": "string"
+    },
+    "build_type": {
+      "type": "string"
+    },
+    "builder_id": {
+      "type": "string"
+    },
+    "subject_digest": {
+      "type": "string"
+    },
+    "source_repo": {
+      "type": "string"
+    },
+    "source_ref": {
+      "type": "string"
+    },
+    "source_uri": {
+      "type": "string"
+    },
+    "source_git_commit": {
+      "type": "string"
+    },
+    "invocation_id": {
+      "type": "string"
+    }
+  }
+}

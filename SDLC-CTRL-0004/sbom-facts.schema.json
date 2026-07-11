@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "spec_version",
+    "created",
+    "creators",
+    "relationship_count",
+    "packages"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "spec_version": {
+      "type": "string"
+    },
+    "created": {
+      "type": "string"
+    },
+    "creators": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "relationship_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/package"
+      }
+    }
+  },
+  "definitions": {
+    "package": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "license",
+        "purl"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        },
+        "purl": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
