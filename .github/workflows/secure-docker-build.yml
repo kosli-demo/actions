@@ -174,10 +174,22 @@ jobs:
           echo "DIGEST=${DIGEST}" >> ${GITHUB_ENV}
           echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
 
+      # Read the SBOM back out of the registry. Retried with backoff: the ghcr
+      # blob read occasionally fails with a connection reset, and a single flake
+      # should not fail the whole build. Fails the step if every attempt fails.
       - name: Get SBOM file
-        run:
-          docker buildx imagetools inspect ${{ inputs.image_name }}@${{ steps.docker_build.outputs.digest }}
-            --format "{{ json .SBOM.SPDX }}" > sbom.spdx.json
+        shell: bash
+        run: |
+          for attempt in 1 2 3; do
+            if docker buildx imagetools inspect ${{ inputs.image_name }}@${{ steps.docker_build.outputs.digest }} \
+                 --format "{{ json .SBOM.SPDX }}" > sbom.spdx.json; then
+              exit 0
+            fi
+            echo "imagetools inspect failed (attempt ${attempt}/3); retrying..." >&2
+            sleep $((attempt * 5))
+          done
+          echo "imagetools inspect failed after 3 attempts" >&2
+          exit 1
 
       # Attest the image and SBOM to GitHub and Kosli, distill provenance and
       # SBOM facts, evaluate them against SDLC-CTRL-0002 and SDLC-CTRL-0004, and
